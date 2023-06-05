@@ -15,5 +15,7 @@ namespace TaskManager.Entidades
         public int Orden { get; set; }
 
         public DateTime FechaCreacion { get; set; }
+
+        public List<Paso> Pasos { get; set; }
     }
 }
