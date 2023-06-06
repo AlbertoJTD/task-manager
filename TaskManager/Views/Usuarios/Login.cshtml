@@ -6,6 +6,11 @@
 
 <h1>Iniciar sesion</h1>
 
+@if (ViewData.Keys.Contains("mensaje"))
+{
+    <p style="color: red">@ViewData["mensaje"]</p>
+}
+
 <div class="card">
     <div class="card-body">
         <form asp-action="Login">
