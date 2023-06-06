@@ -5,6 +5,7 @@ namespace TaskManager.Entidades
     public class ArchivoAdjunto
     {
         public Guid Id { get; set; }
+
         public int  TareaId { get; set; }
         public Tarea Tarea { get; set; }
 
