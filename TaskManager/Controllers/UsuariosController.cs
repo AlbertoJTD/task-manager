@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using TaskManager.Migrations;
 using TaskManager.Models;
+using TaskManager.Servicios;
 
 namespace TaskManager.Controllers
 {
@@ -183,6 +184,36 @@ namespace TaskManager.Controllers
             modelo.Mensaje = mensaje;
 
             return View(modelo);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> HacerAdmin(string email)
+        {
+            var usuario = await context.Users.Where(user => user.Email == email).FirstOrDefaultAsync();
+
+            if (usuario is null)
+            {
+                return NotFound();
+            }
+
+            await userManager.AddToRoleAsync(usuario, Constantes.RolAdmin);
+
+            return RedirectToAction("Listado", routeValues: new { mensaje = "Rol asignado correctamente a " + email });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoverAdmin(string email)
+        {
+            var usuario = await context.Users.Where(user => user.Email == email).FirstOrDefaultAsync();
+
+            if (usuario is null)
+            {
+                return NotFound();
+            }
+
+            await userManager.RemoveFromRoleAsync(usuario, Constantes.RolAdmin);
+
+            return RedirectToAction("Listado", routeValues: new { mensaje = "Rol removido correctamente a " + email });
         }
     }
 }
