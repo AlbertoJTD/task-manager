@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TaskManager.Migrations;
 using TaskManager.Models;
 
 namespace TaskManager.Controllers
@@ -14,11 +16,6 @@ namespace TaskManager.Controllers
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
         }
 
         [AllowAnonymous]
@@ -57,13 +54,41 @@ namespace TaskManager.Controllers
                 }
                 return View(modelo);
             }
-
         }
 
         [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel modelo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(modelo);
+            }
+
+            var resultado = await signInManager.PasswordSignInAsync(modelo.Email, modelo.Password, modelo.Recuerdame, lockoutOnFailure: false);
+
+            if (resultado.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Credenciales incorrectas");
+                return View(modelo);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+            return RedirectToAction("Index", "Home");
         }
     }
 }
