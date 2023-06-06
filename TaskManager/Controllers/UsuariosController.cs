@@ -172,6 +172,7 @@ namespace TaskManager.Controllers
             return RedirectToAction("login", routeValues: new { mensaje });
         }
 
+        [Authorize(Roles = Constantes.RolAdmin)]
         public async Task<IActionResult> Listado(string mensaje = null)
         {
             var usuarios = await context.Users.Select(user => new UsuarioViewModel
@@ -187,6 +188,7 @@ namespace TaskManager.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Constantes.RolAdmin)]
         public async Task<IActionResult> HacerAdmin(string email)
         {
             var usuario = await context.Users.Where(user => user.Email == email).FirstOrDefaultAsync();
@@ -202,6 +204,7 @@ namespace TaskManager.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Constantes.RolAdmin)]
         public async Task<IActionResult> RemoverAdmin(string email)
         {
             var usuario = await context.Users.Where(user => user.Email == email).FirstOrDefaultAsync();
