@@ -19,12 +19,6 @@ namespace TaskManager.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.Saludo = localizer["Buenos dias"];
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 
