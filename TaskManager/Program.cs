@@ -16,7 +16,11 @@ var politicaUsuariosAutenticados = new AuthorizationPolicyBuilder().RequireAuthe
 builder.Services.AddControllersWithViews(opciones =>
 {
     opciones.Filters.Add(new AuthorizeFilter(politicaUsuariosAutenticados));
-}).AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix); // Index.en.resx -> 'en' indica el idioma
+}).AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix) // Index.en.resx -> 'en' indica el idioma
+.AddDataAnnotationsLocalization(opciones =>
+{
+    opciones.DataAnnotationLocalizerProvider = (_, factoria) => factoria.Create(typeof(RecursoCompartido));
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(opciones => opciones.UseSqlServer("name=DefaultConnection"));
 
