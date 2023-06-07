@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using TaskManager;
@@ -15,9 +16,7 @@ var politicaUsuariosAutenticados = new AuthorizationPolicyBuilder().RequireAuthe
 builder.Services.AddControllersWithViews(opciones =>
 {
     opciones.Filters.Add(new AuthorizeFilter(politicaUsuariosAutenticados));
-});
-
-builder.Services.AddControllersWithViews();
+}).AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix); // Index.en.resx -> 'en' indica el idioma
 
 builder.Services.AddDbContext<ApplicationDbContext>(opciones => opciones.UseSqlServer("name=DefaultConnection"));
 
