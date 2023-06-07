@@ -31,6 +31,8 @@ builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.Ap
     opciones.AccessDeniedPath = "/usuarios/login";
 });
 
+builder.Services.AddLocalization();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
