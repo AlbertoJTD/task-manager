@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Entidades;
+using TaskManager.Models;
 using TaskManager.Servicios;
 
 namespace TaskManager.Controllers
@@ -18,10 +19,16 @@ namespace TaskManager.Controllers
 		}
 
 		[HttpGet]
-		public async Task<List<Tarea>> Get()
+		public async Task<List<TareaDTO>> Get()
 		{
 			var usuarioId = servicioUsuarios.ObtenerUsuarioId();
-			return await context.Tareas.Where(x => x.UsuarioCreacionId == usuarioId).OrderBy(x => x.Orden).ToListAsync();
+			return await context.Tareas.Where(x => x.UsuarioCreacionId == usuarioId)
+										.OrderBy(x => x.Orden)
+										.Select(x => new TareaDTO
+										{
+											Id = x.Id,
+											Titulo = x.Titulo
+										}).ToListAsync();
 		}
 
 		[HttpPost]
