@@ -62,10 +62,7 @@
 
 		const tareaListadoViewModel = new tareaListadoViewModelFn();
 
-		setTimeout(() => {
-			tareaListadoViewModel.cargando(false)
-		}, 100)
-
+		obtenerTareas()
 
 		ko.applyBindings(tareaListadoViewModel, document.getElementById('contenedor-listado-tareas'))
 	</script>
