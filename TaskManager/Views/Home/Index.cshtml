@@ -14,12 +14,12 @@
 </div>
 
 <div id="contenedor-listado-tareas" class="text-center">
-	<div class="text-start" data-bind="foreach: tareas">
+	<div id="reordenable" class="text-start" data-bind="foreach: tareas">
 		<div name="tarea" class="border mb-2 p-2" style="cursor: pointer">
 			<div data-bind="text: titulo, hidden: esNuevo" class="fw-bold">
 			</div>
 
-			<input name="titulo-tarea" data-bind="value: titulo, visible: esNuevo, event: {focusout: manejarFocusoutTituloTarea}" />
+			<input name="titulo-tarea" data-bind="value: titulo, visible: esNuevo, attr: {'data-id': id}, event: {focusout: manejarFocusoutTituloTarea}" />
 		</div>
 	</div>
 
