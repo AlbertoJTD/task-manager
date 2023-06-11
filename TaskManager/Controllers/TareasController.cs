@@ -82,5 +82,19 @@ namespace TaskManager.Controllers
             await context.SaveChangesAsync();
             return Ok();
         }
-    }
+
+		[HttpGet("{id:int}")]
+		public async Task<ActionResult<Tarea>> Get(int id)
+		{
+			var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+			var tarea = await context.Tareas.FirstOrDefaultAsync(t => t.Id == id && t.UsuarioCreacionId == usuarioId);
+
+			if (tarea is null)
+			{
+				return NotFound();
+			}
+
+			return tarea;
+		}
+	}
 }
