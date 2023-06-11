@@ -149,6 +149,41 @@ async function editarTareaCompleta(tarea) {
     }
 }
 
+
+function intentarBorrarTarea(tarea) {
+    modalEditarBootstrap.hide();
+
+    confirmarAccion({
+        callBackAceptar: () => {
+            borrarTarea(tarea);
+        },
+        callbackCancelar: () => {
+            modalEditarBootstrap.show();
+        },
+        titulo: `¿Desea borrar la tarea ${tarea.titulo()}?`
+    })
+}
+
+async function borrarTarea(tarea) {
+    const idTarea = tarea.id;
+
+    const respuesta = await fetch(`${urlTareas}/${idTarea}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (respuesta.ok) {
+        const indice = obtenerIndiceTarea();
+        tareaListadoViewModel.tareas.splice(indice, 1);
+    }
+}
+
+function obtenerIndiceTarea() {
+    return tareaListadoViewModel.tareas().findIndex(t => t.id() == tareaEditarVM.id);
+}
+
 $(function () {
     $("#reordenable").sortable({
         axis: 'y',
