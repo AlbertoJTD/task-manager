@@ -18,7 +18,7 @@ namespace TaskManager.Controllers
 			this.servicioUsuarios = servicioUsuarios;
 		}
 
-		[HttpPost("tareaId:int")]
+		[HttpPost("{tareaId:int}")]
 		public async Task<ActionResult<Paso>> Post(int tareaId, [FromBody] PasoCrearDTO pasoCrearDTO)
 		{
 			var usuarioId = servicioUsuarios.ObtenerUsuarioId();
