@@ -53,9 +53,30 @@ namespace TaskManager.Controllers
 				Orden = ordenMayor + indice + 1
 			}).ToList();
 
-			context.AddRange(archivosAdjuntos); // Aggregar un conjunto de entidades
+			context.AddRange(archivosAdjuntos); // Agregar un conjunto de entidades
 			await context.SaveChangesAsync();
 			return archivosAdjuntos.ToList();
+		}
+
+		[HttpPut("{id}")]
+		public async Task<IActionResult> Put(Guid id, [FromBody] string titulo)
+		{
+			var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+			var archivoAdjunto = await context.ArchivosAdjuntos.Include(a => a.Tarea).FirstOrDefaultAsync(a => a.Id == id);
+
+			if (archivoAdjunto is null)
+			{
+				return NotFound();
+			}
+
+			if (archivoAdjunto.Tarea.UsuarioCreacionId != usuarioId)
+			{
+				return BadRequest();
+			}
+
+			archivoAdjunto.Titulo = titulo;
+			await context.SaveChangesAsync();
+			return Ok();
 		}
     }
 }
