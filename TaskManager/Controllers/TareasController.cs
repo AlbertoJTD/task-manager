@@ -87,7 +87,9 @@ namespace TaskManager.Controllers
 		public async Task<ActionResult<Tarea>> Get(int id)
 		{
 			var usuarioId = servicioUsuarios.ObtenerUsuarioId();
-			var tarea = await context.Tareas.Include(t => t.Pasos.OrderBy(t => t.Orden)).FirstOrDefaultAsync(t => t.Id == id && t.UsuarioCreacionId == usuarioId);
+			var tarea = await context.Tareas.Include(t => t.Pasos.OrderBy(t => t.Orden))
+											.Include(t => t.ArchivosAdjuntos.OrderBy(a => a.Orden))
+											.FirstOrDefaultAsync(t => t.Id == id && t.UsuarioCreacionId == usuarioId);
 
 			if (tarea is null)
 			{
