@@ -53,7 +53,7 @@ namespace TaskManager.Controllers
 				Orden = ordenMayor + indice + 1
 			}).ToList();
 
-			context.AddRange(archivosAdjuntos);
+			context.AddRange(archivosAdjuntos); // Aggregar un conjunto de entidades
 			await context.SaveChangesAsync();
 			return archivosAdjuntos.ToList();
 		}
